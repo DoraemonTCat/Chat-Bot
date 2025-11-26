@@ -2,16 +2,13 @@ import requests
 from fastapi import FastAPI, Request
 from linebot import LineBotApi, WebhookParser
 from linebot.models import TextSendMessage
-
+from dotenv import load_dotenv
+from main import LINE_TOKEN, DIFY_API_KEY, DIFY_CHAT_URL , parser
+import os
 
 app = FastAPI()
 
-LINE_TOKEN = "OsUuijk64ryTrIijIN6k1sA+NGUkFhGiBRhuYBWRjIweZ5rSkE5AgU4Jk3JfW9X7lWJnhpYF5+/nSvzHkKbXCaS4ZtkbM2u6zU7WlhiV1qrNaLYn+IA68pQghR6r3TAmTHz7q4V9vmIantOekshfjQdB04t89/1O/w1cDnyilFU="
 line_bot = LineBotApi(LINE_TOKEN)
-parser = WebhookParser("1823b4dcc6c943660a08daa64559a787")
-
-DIFY_CHAT_URL = "http://localhost/v1/chat-messages"
-DIFY_API_KEY = "app-aOeOS9EGKdo6plZ1AMG3WUqJ"
 
 @app.post("/webhook")
 async def webhook(request: Request):

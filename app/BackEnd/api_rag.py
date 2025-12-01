@@ -4,9 +4,10 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import os
 from dotenv import load_dotenv
+import httpx
 
-# Import StructuredRAG จากไฟล์ก่อนหน้า
-# from structured_rag import StructuredRAG
+# Import StructuredRAG class
+from structured_rag import StructuredRAG
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ app = FastAPI(title="Structured RAG API for Dify")
 # Initialize RAG Service
 rag_service = StructuredRAG(
     dify_api_key=os.getenv("DIFY_API_KEY"),
-    dify_url=os.getenv("DIFY_CHAT_URL", "http://localhost")
+    dify_url=os.getenv("DIFY_API_URL", "http://localhost")  
 )
 
 class KnowledgeProcessRequest(BaseModel):
@@ -30,6 +31,9 @@ class SearchRequest(BaseModel):
 class UpdateKnowledgeRequest(BaseModel):
     dataset_id: str
     documents: List[Dict[str, Any]]
+    
+class StructureRequest(BaseModel):  # ← เพิ่ม Model นี้ด้วย
+    dataset_id: str
 
 @app.get("/")
 async def root():
@@ -173,7 +177,7 @@ async def line_webhook_with_rag(request: dict):
                 # ค้นหาความรู้ที่เกี่ยวข้อง
                 search_request = SearchRequest(
                     query=user_message,
-                    dataset_id=os.getenv("DIFY_DATASET_ID", ""),
+                    dataset_id=os.getenv("DIFY_API_KEY", ""),
                     top_k=3
                 )
                 

@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request
 from linebot import LineBotApi, WebhookParser
 from linebot.models import TextSendMessage
 from dotenv import load_dotenv
-from main import LINE_TOKEN, DIFY_API_KEY, DIFY_CHAT_URL , parser
+from main import LINE_TOKEN, DIFY_API_KEY, DIFY_CHAT_URL , parser , DIFY_DataSet_API_KEY
 import os
 
 app = FastAPI()
